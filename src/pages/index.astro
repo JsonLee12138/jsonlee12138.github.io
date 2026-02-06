@@ -1,49 +1,76 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import SectionHeader from '../components/SectionHeader.astro';
 import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import ProjectGrid from '../components/ProjectGrid';
+import WritingList from '../components/WritingList';
+import { Icon } from '@iconify/react';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title="Json Lee - Developer & Open Source Enthusiast">
+  <Navbar client:load />
+
+  <main class="px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
+    <Hero client:load />
+
+    <section id="projects" class="py-24 md:py-32 border-t border-gray-200/60 relative">
+      <div class="flex items-center justify-between mb-8">
+        <SectionHeader number="01" title="Selected Projects" />
+        <div class="hidden md:block absolute right-0 top-16 opacity-80 rotate-12 hover:rotate-0 transition-transform duration-500">
+          <img
+            src="/images/sticker_idea.png"
+            alt="Projects Sticker"
+            width="100"
+            height="100"
+            decoding="async"
+          />
+        </div>
+      </div>
+      <div class="mt-12">
+        <ProjectGrid client:visible />
+      </div>
+      <div class="mt-12 text-center md:text-left">
+        <a href="https://github.com/JsonLee12138" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-mono text-gray-500 hover:text-black transition-colors border-b border-gray-300 pb-0.5 hover:border-black">
+          View all repositories on GitHub →
+        </a>
+      </div>
+    </section>
+
+    <section id="essays" class="py-24 md:py-32 border-t border-gray-200/60">
+      <div class="flex flex-col md:flex-row gap-12 md:gap-24">
+        <div class="md:w-1/3">
+          <div class="flex items-center gap-3">
+            <SectionHeader number="02" title="Writing" />
+            <Icon icon="line-md:edit-twotone" className="w-8 h-8 text-blue-600 mb-8" client:load />
+          </div>
+          <p class="mt-6 text-gray-500 leading-relaxed">
+            Thoughts on software engineering, design patterns, and the future of web development.
+          </p>
+        </div>
+        <div class="md:w-2/3">
+          <WritingList client:visible />
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-24 md:py-32 border-t border-gray-200/60 mb-12">
+      <SectionHeader number="03" title="Get in Touch" />
+      <div class="mt-12 p-12 bg-white border border-gray-200 rounded-2xl shadow-sm text-center relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="relative z-10">
+          <h3 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6">Let's build something great.</h3>
+          <p class="text-gray-600 mb-10 max-w-lg mx-auto text-lg">
+            I'm currently available for freelance projects and open to new opportunities.
+          </p>
+          <a href="mailto:hello@jsonlee.dev" class="inline-block px-8 py-4 bg-black text-white rounded-lg font-medium hover:scale-105 hover:shadow-xl transition-all duration-300">
+            Say Hello
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </main>
+</BaseLayout>

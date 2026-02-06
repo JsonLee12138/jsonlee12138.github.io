@@ -1,0 +1,32 @@
+---
+---
+
+<div class="w-16 h-16 opacity-60 mix-blend-multiply flex items-center justify-center">
+  <svg
+    class="scroll-arrow"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <path d="M12 5v14M5 12l7 7 7-7" />
+  </svg>
+</div>
+
+<style>
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(-25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+  .scroll-arrow {
+    animation: bounce 1s infinite;
+  }
+</style>

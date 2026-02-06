@@ -1,114 +1,68 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PostCard from '../../components/PostCard';
+import SectionHeader from '../../components/SectionHeader.astro';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit'
+  });
+}
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title="Blog - Json Lee">
+  <main class="px-6 md:px-12 lg:px-24 max-w-5xl mx-auto py-20">
+    <div class="mb-16">
+      <a href="/" class="inline-flex items-center text-sm font-mono text-gray-500 hover:text-black transition-colors mb-8">
+        ← Back to Home
+      </a>
+      <SectionHeader number="02" title="All Writing" />
+      <p class="text-gray-500 leading-relaxed max-w-2xl">
+        Thoughts on software engineering, design patterns, and the future of web development.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {posts.map((post) => (
+        <a href={`/blog/${post.id}/`} class="block">
+          <div class="group bg-surface border border-border p-6 md:p-8 cursor-pointer relative overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+            {post.data.heroImage && (
+              <div class="mb-4 -mx-6 -mt-6 md:-mx-8 md:-mt-8">
+                <Image
+                  width={720}
+                  height={360}
+                  src={post.data.heroImage}
+                  alt=""
+                  class="w-full h-48 object-cover"
+                />
+              </div>
+            )}
+            <div class="flex justify-between items-start mb-4">
+              <span class="text-xs font-mono text-accent uppercase tracking-wider border border-accent/20 px-2 py-1 rounded-full">
+                Article
+              </span>
+              <span class="text-xs font-mono text-graphite">{formatDate(post.data.pubDate)}</span>
+            </div>
+            <h3 class="font-serif text-2xl mb-2 group-hover:text-accent transition-colors duration-300">
+              {post.data.title}
+            </h3>
+            <p class="text-graphite text-sm leading-relaxed line-clamp-2">
+              {post.data.description}
+            </p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <Footer />
+  </main>
+</BaseLayout>
