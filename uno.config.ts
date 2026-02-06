@@ -14,7 +14,8 @@ export default defineConfig({
           { name: 'Instrument Serif', weights: ['400'] },
         ],
         mono: [
-          { name: 'JetBrains Mono', weights: ['400'] },
+          // { name: 'JetBrains Mono', weights: ['400'] },
+          { name: 'Maple Mono', weights: ['400'] },
         ],
       },
     }),
