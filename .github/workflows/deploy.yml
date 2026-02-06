@@ -25,8 +25,8 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v2
         with:
-          path: ./blog
-          node-version: '20'
+          path: .
+          node-version: '24'
           package-manager: npm
 
   deploy:
